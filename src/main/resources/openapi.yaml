@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: File System
+  description: File System
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /v1/resources:
+    post:
+      summary: Get file system resources
+      operationId: getResources
+      tags:
+        - Resources
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPathRequestV1'
+      responses:
+        '200':
+          description: Returns list of resources from searched path. Nothing returned if directory is empty or searched path is file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetResourcesV1'
+        '404':
+          $ref: '#/components/responses/NotFoundResponseV1'
+
+
+
+
+components:
+  schemas:
+
+    SearchPathRequestV1:
+      type: object
+      properties:
+        path:
+          type: string
+          example: /
+          pattern: ^\/$|^\/([a-zA-Z0-9._-]+\/)*[a-zA-Z0-9._-]+$
+
+    GetResourcesV1:
+      type: object
+      properties:
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRepresentationV1'
+
+    ResourceRepresentationV1:
+      type: object
+      properties:
+        absolutePath:
+          type: string
+          example: /basePath/file.txt
+        name:
+          type: string
+          example: file.txt
+        resourceType:
+          type: string
+          enum: [FILE, DIRECTORY]
+          example: FILE
+        size:
+          type: integer
+          format: int64
+          description: Size of resource in bytes
+          example: 45766
+        lastModified:
+          type: string
+          format: date-time
+
+    DefaultErrorResponseV1:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 500
+        message:
+          type: string
+          example: Something went wrong
+        timestamp:
+          type: string
+          format: date-time
+          example: 2025-10-02T14:30:00Z
+  responses:
+    NotFoundResponseV1:
+      description: Resources searched with provided path doesn't exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultErrorResponseV1'
