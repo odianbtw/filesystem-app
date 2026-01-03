@@ -7,7 +7,7 @@ The API allows clients (e.g. frontend UI applications) to:
 
 - Inspect files and directories metadata
 
-This project is designed with clean architecture, clear API contracts, and strong testing practices in mind.
+This project is designed with clean architecture, clear API contracts, and strong testing practices in mind. 
 
 # 🧱 Tech Stack
 
