@@ -11,7 +11,7 @@ This project is designed with clean architecture, clear API contracts, and stron
 
 # 🧱 Tech Stack
 
-- ☕ Java 17
+- ☕ Java 21
 
 - 🌱 Spring Boot
 
